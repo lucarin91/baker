@@ -105,10 +105,12 @@ func (w *splitWriter) Close() error {
 
 		off, err := w.findSplitPoint(f)
 		if err != nil {
+			f.Close()
 			return err
 		}
 		if off == 0 {
 			// Nothing to do since f can't be split.
+			f.Close()
 			break
 		}
 
@@ -119,6 +121,7 @@ func (w *splitWriter) Close() error {
 
 		// State update for next writes
 		w.fname = f.Name()
+		w.f.Close()
 		w.f = f
 
 		// In case the current file still requires splitting.
@@ -180,6 +183,7 @@ func doSplit(f *os.File, off int64) (*os.File, error) {
 	dir, fname := filepath.Split(f.Name())
 	next, first, err := nextSplit(fname)
 	if err != nil {
+		f.Close()
 		return nil, err
 	}
 
@@ -197,23 +201,34 @@ func doNextSplit(f *os.File, dir, next string, off int64) (*os.File, error) {
 	nextpath := filepath.Join(dir, next)
 	nextf, err := open(nextpath)
 	if err != nil {
+		f.Close()
 		return nil, err
 	}
 
 	if _, err := f.Seek(off, io.SeekStart); err != nil {
+		nextf.Close()
+		f.Close()
 		return nil, err
 	}
 
 	if _, err := io.Copy(nextf, f); err != nil {
+		nextf.Close()
+		f.Close()
 		return nil, err
 	}
 
 	// Conclude the current split
 	if err := f.Truncate(off); err != nil {
+		nextf.Close()
+		f.Close()
 		return nil, err
 	}
 
-	return nextf, f.Close()
+	if err := f.Close(); err != nil {
+		nextf.Close()
+		return nil, err
+	}
+	return nextf, nil
 }
 
 // doFirstSplit creates the first splits of f, at offset off.
@@ -232,32 +247,49 @@ func doFirstSplit(f *os.File, dir, fname, next1 string, off int64) (*os.File, er
 	}
 	f2, err := open(next2path)
 	if err != nil {
+		f1.Close()
 		return nil, err
 	}
 
 	// Split the original file into 2 parts
 	if _, err := f.Seek(0, io.SeekStart); err != nil {
+		f1.Close()
+		f2.Close()
+		f.Close()
 		return nil, err
 	}
 
 	if _, err := io.CopyN(f1, f, off); err != nil {
+		f1.Close()
+		f2.Close()
+		f.Close()
 		return nil, err
 	}
 
 	if _, err := io.Copy(f2, f); err != nil {
+		f1.Close()
+		f2.Close()
+		f.Close()
 		return nil, err
 	}
 
 	// Close the 2 parts and remove the original file
 	if err := f.Close(); err != nil {
+		f1.Close()
+		f2.Close()
 		return nil, err
 	}
 
 	if err := f1.Close(); err != nil {
+		f2.Close()
 		return nil, err
 	}
 
-	return f2, os.Remove(filepath.Join(dir, fname))
+	if err := os.Remove(filepath.Join(dir, fname)); err != nil {
+		f2.Close()
+		return nil, err
+	}
+	return f2, nil
 }
 
 var splitFnameRx = regexp.MustCompile(`(\S+)-part-(\d+)(.*)`)
