@@ -1,0 +1,43 @@
+name: Build website
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          submodules: 'true'
+            
+    - name: Hugo setup
+      uses: peaceiris/actions-hugo@v2.4.13
+      with:
+        extended: true
+    
+    - name: Set up Go 1.15.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15.x
+      id: go
+
+    - name: Node setup
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Generate components docs
+      run: |
+        cd utils/generate-components-pages/
+        go get github.com/AdRoll/baker
+        go run . ../../content/en/docs/Components/
+    - name: Build
+      run: |
+        make setup
+        make build
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        publish_branch: gh-pages
+        
