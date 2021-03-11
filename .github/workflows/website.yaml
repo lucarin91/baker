@@ -1,0 +1,9 @@
+name: Build website
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - run: ""
+# The actual steps are in gh-pages-source branch
