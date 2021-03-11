@@ -1,0 +1,1014 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Baker, high performance modular pipelines for the Big Data era – Filters</title>
+    <link>https://getbaker.io/docs/components/filters/</link>
+    <description>Recent content in Filters on Baker, high performance modular pipelines for the Big Data era</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Mar 2021 00:00:00 +0000</lastBuildDate>
+    
+	  <atom:link href="https://getbaker.io/docs/components/filters/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: ClauseFilter</title>
+      <link>https://getbaker.io/docs/components/filters/clausefilter/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/clausefilter/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#ClauseFilter&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-clausefilter&#34;&gt;Filter &lt;em&gt;ClauseFilter&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Discard records which do not match a clause given as a boolean S-expression. Check the filter documentation for some examples.&lt;/p&gt;
+&lt;h3 id=&#34;clausefilter-boolean-expression-format&#34;&gt;ClauseFilter boolean expression format&lt;/h3&gt;
+&lt;p&gt;This document describes the s-expression format used in ClauseFilter.&lt;/p&gt;
+&lt;p&gt;The format uses s-expressions. Empty string matches anything (i.e. all records
+will pass the expression).&lt;/p&gt;
+&lt;p&gt;There are only three keywords: and, or, not&lt;/p&gt;
+&lt;p&gt;If an s-expression starts with any other name, it is assumed to be the name of
+a field and it should be paired with the desired value to match against.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Must match both X and Y to pass:
+(and X Y)
+
+You can use more than 2 arguments:
+(and X Y Z A B C)
+
+Must match either X or Y to pass:
+(or X Y)
+
+Must NOT match X to pass:
+(not X)
+
+Field must equal value to pass:
+(FIELD VALUE)
+
+example:
+(fieldName somevalue)
+
+Matches anything (because only one argument)
+(and X)
+
+Matches nothing
+(and)
+
+Matches anything
+(or)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(and (fieldName value1) (anotherFieldName value2))
+
+(or (fieldName value1) (fieldName value2))
+
+(not (or (fieldName value1) (fieldName value2)))
+
+(or
+  (and (fieldName value1)
+       (anotherFieldName value3))
+  (and (fieldName value2)
+       (anotherFieldName value4)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Clause&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Boolean formula describing which events to let through. If empty, let everything through.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ClearFields</title>
+      <link>https://getbaker.io/docs/components/filters/clearfields/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/clearfields/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#ClearFields&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-clearfields&#34;&gt;Filter &lt;em&gt;ClearFields&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Reset a set of fields of all records passing through&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;set of fields to clear&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Concatenate</title>
+      <link>https://getbaker.io/docs/components/filters/concatenate/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/concatenate/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#Concatenate&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-concatenate&#34;&gt;Filter &lt;em&gt;Concatenate&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Concatenate up to 10 fields&#39; values to a single field&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;The field names to concatenate, in order&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Target&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;The field name to save the concatenated value to&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Separator&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Separator to concatenate the values. Must either be empty or a single ASCII, non-nil char&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Dedup</title>
+      <link>https://getbaker.io/docs/components/filters/dedup/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/dedup/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#Dedup&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-dedup&#34;&gt;Filter &lt;em&gt;Dedup&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;This filter removes duplicate records. A record is considered a duplicate, and is thus removed by this filter,
+if another record with the same values has already been &lt;em&gt;seen&lt;/em&gt;. The comparison is performed on a
+user-provided list of fields (&lt;code&gt;Fields&lt;/code&gt; setting).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;WARNING&lt;/strong&gt;: to remove duplicates, this filter stores one key per unique record in memory, this means
+that the overall memory grows linearly with the number of unique records in your data set. Depending
+on your data set, this might lead to OOM (i.e. out of memory) errors.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;fields to consider when comparing records&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;KeySeparator&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ldquo;\x1e&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;character separator used to build a key from the fields&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ExpandJSON</title>
+      <link>https://getbaker.io/docs/components/filters/expandjson/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/expandjson/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#ExpandJSON&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-expandjson&#34;&gt;Filter &lt;em&gt;ExpandJSON&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;ExpandJSON extracts values from a JSON formatted record field and writes them into other fields of the same record.
+It supports &lt;a href=&#34;https://jmespath.org/tutorial.html&#34;&gt;JMESPath&lt;/a&gt; to select the values to copy inside the JSON.&lt;/p&gt;
+&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;A possible filter configuration is:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[[filter]]
+name=&amp;quot;ExpandJSON&amp;quot;
+	[filter.config]
+	Source = &amp;quot;json_data&amp;quot;
+	[filter.config.Fields]
+	jfield1  = &amp;quot;field1&amp;quot;
+	jfield2  = &amp;quot;field2&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this example, the filter extracts values of the &lt;code&gt;jfield1&lt;/code&gt; and &lt;code&gt;jfield2&lt;/code&gt; keys of the JSON
+object present in field &lt;code&gt;json_data&lt;/code&gt;of the record. Then, the values of that keys will be written into the field
+&lt;code&gt;field1&lt;/code&gt; and &lt;code&gt;field2&lt;/code&gt; of the same record.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Source&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;record field that contains the json&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;map of strings to strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;&amp;lt;JMESPath -&amp;gt; record field&amp;gt; map, the rest will be ignored&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TrueFalseValues&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[&amp;ldquo;true&amp;rdquo;, &amp;ldquo;false&amp;rdquo;]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;bind the json boolean values to correstponding strings&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: FormatTime</title>
+      <link>https://getbaker.io/docs/components/filters/formattime/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/formattime/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#FormatTime&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-formattime&#34;&gt;Filter &lt;em&gt;FormatTime&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;This filter formats and converts date/time strings from one format to another.
+It requires the source and destination field names along with 2 format strings, the
+first one indicates how to parse the input field while the second how to format it.&lt;/p&gt;
+&lt;p&gt;The source time parsing can fail if the time value does not match the provided format.
+In this situation the filter clears the destination field, thus the user can filter out
+those results with a &lt;strong&gt;NotNull&lt;/strong&gt; filter.&lt;/p&gt;
+&lt;p&gt;Most standard formats are supported out of the box and you can provide your own format
+string, see &lt;a href=&#34;https://pkg.go.dev/time#pkg-constants&#34;&gt;Go time layout&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Supported time format are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ANSIC&lt;/code&gt; format: &amp;ldquo;Mon Jan _2 15:04:05 2006&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;UnixDate&lt;/code&gt; format: &amp;ldquo;Mon Jan _2 15:04:05 MST 2006&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RubyDate&lt;/code&gt; format: &amp;ldquo;Mon Jan 02 15:04:05 -0700 2006&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC822&lt;/code&gt; format: &amp;ldquo;02 Jan 06 15:04 MST&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC822Z&lt;/code&gt; that is RFC822 with numeric zone, format: &amp;ldquo;02 Jan 06 15:04 -0700&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC850&lt;/code&gt; format: &amp;ldquo;Monday, 02-Jan-06 15:04:05 MST&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC1123&lt;/code&gt; format: &amp;ldquo;Mon, 02 Jan 2006 15:04:05 MST&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC1123Z&lt;/code&gt; that is RFC1123 with numeric zone, format: &amp;ldquo;Mon, 02 Jan 2006 15:04:05 -0700&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC3339&lt;/code&gt; format: &amp;ldquo;2006-01-02T15:04:05Z07:00&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RFC3339Nano&lt;/code&gt; format: &amp;ldquo;2006-01-02T15:04:05.999999999Z07:00&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unix&lt;/code&gt; unix epoch in seconds&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unixms&lt;/code&gt; unix epoch in milliseconds&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unixns&lt;/code&gt; unix epoch in nanoseconds&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SrcField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Field name of the input time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DstField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Field name of the output time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SrcFormat&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ldquo;UnixDate&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Format of the input time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DstFormat&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ldquo;unixms&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Format of the output time&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Hash</title>
+      <link>https://getbaker.io/docs/components/filters/hash/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/hash/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#Hash&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-hash&#34;&gt;Filter &lt;em&gt;Hash&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;This filter hashes a field using a specified hash function and writes the value
+to another (or the same) field. In order to have control over the set of characters
+present, the hashed value can optionally be encoded.&lt;/p&gt;
+&lt;p&gt;Supported hash functions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;md5&lt;/li&gt;
+&lt;li&gt;sha256&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Supported encodings:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;hex (hexadecimal encoding)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;SrcField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field to hash&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DstField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field to write the result to&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Function&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the hash function to use&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Encoding&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Name of the encoding function to use&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MetadataLastModified</title>
+      <link>https://getbaker.io/docs/components/filters/metadatalastmodified/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/metadatalastmodified/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#MetadataLastModified&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-metadatalastmodified&#34;&gt;Filter &lt;em&gt;MetadataLastModified&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Extract the &amp;ldquo;last modified&amp;rdquo; timestamp from the record Metadata and write it to the selected field.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;DstField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field into which write the timestamp to&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: MetadataUrl</title>
+      <link>https://getbaker.io/docs/components/filters/metadataurl/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/metadataurl/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#MetadataUrl&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-metadataurl&#34;&gt;Filter &lt;em&gt;MetadataUrl&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;This filter looks for &amp;lsquo;url&amp;rsquo; in records metadata and copies it into a field of your choice, see DstField.
+If it doesn&amp;rsquo;t find the &amp;lsquo;url&amp;rsquo; in the metadata, this filter clear DstField.&lt;/p&gt;
+&lt;p&gt;If you wish to discard records without the &amp;lsquo;url&amp;rsquo; metadata, you can add the NotNull filter after this one in your topology.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;DstField&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field into to write the url to (or to clear if there&amp;rsquo;s no url)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: NotNull</title>
+      <link>https://getbaker.io/docs/components/filters/notnull/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/notnull/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#NotNull&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-notnull&#34;&gt;Filter &lt;em&gt;NotNull&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Discard the records having null (i.e empty) fields.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Fields is the list of fields to check for null/empty values&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: PartialClone</title>
+      <link>https://getbaker.io/docs/components/filters/partialclone/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/partialclone/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#PartialClone&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-partialclone&#34;&gt;Filter &lt;em&gt;PartialClone&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Copy a list of fields to a new record and process this new record, discarding the original one&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Fields that must be copied to the new line&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: RegexMatch</title>
+      <link>https://getbaker.io/docs/components/filters/regexmatch/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/regexmatch/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#RegexMatch&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-regexmatch&#34;&gt;Filter &lt;em&gt;RegexMatch&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Discard a record if one or more fields don&amp;rsquo;t match the corresponding regular expressions&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Fields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;list of fields to match with the corresponding regular expression in Regexs&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Regexs&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;list of regular expression to match. Fields[0] must match Regexs[0], Fields[1] Regexs[1] and so on&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: ReplaceFields</title>
+      <link>https://getbaker.io/docs/components/filters/replacefields/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/replacefields/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#ReplaceFields&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-replacefields&#34;&gt;Filter &lt;em&gt;ReplaceFields&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Copy a field value or a fixed value to another field. Can copy multiple fields.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CopyFields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;List of src, dst field pairs, for example [&amp;ldquo;srcField1&amp;rdquo;, &amp;ldquo;dstField1&amp;rdquo;, &amp;ldquo;srcField2&amp;rdquo;, &amp;ldquo;dstField2&amp;rdquo;]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ReplaceFields&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;List of field, value pairs, for example: [&amp;ldquo;Foo&amp;rdquo;, &amp;ldquo;dstField1&amp;rdquo;, &amp;ldquo;Bar&amp;rdquo;, &amp;ldquo;dstField2&amp;rdquo;]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: SetStringFromURL</title>
+      <link>https://getbaker.io/docs/components/filters/setstringfromurl/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/setstringfromurl/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#SetStringFromURL&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-setstringfromurl&#34;&gt;Filter &lt;em&gt;SetStringFromURL&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;This filter looks for a set of strings in the URL metadata and sets a field with the found string.
+Discards the log lines if URL metadata doesn&amp;rsquo;t contain any of the given strings.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;On Error:&lt;/strong&gt; the input record is discarded.&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Field&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field to set to&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Strings to look for in the URL. Discard records not containing any of them.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: StringMatch</title>
+      <link>https://getbaker.io/docs/components/filters/stringmatch/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/stringmatch/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#StringMatch&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-stringmatch&#34;&gt;Filter &lt;em&gt;StringMatch&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Discard records if a field matches any of the provided strings&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Field&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;name of the field which value is used for string comparison&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;array of strings&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;[]&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;list of strings to match.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;InvertMatch&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;bool&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;false&lt;/td&gt;
+&lt;td&gt;Invert the match outcome, so that records are discarded if they don&amp;rsquo;t match any of the strings&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Timestamp</title>
+      <link>https://getbaker.io/docs/components/filters/timestamp/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/timestamp/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#Timestamp&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-timestamp&#34;&gt;Filter &lt;em&gt;Timestamp&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Sets a field to the Unix Epoch timestamp at which the record is processed&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Field&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;field to set to the unix Epoch timestamp&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: TimestampRange</title>
+      <link>https://getbaker.io/docs/components/filters/timestamprange/</link>
+      <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://getbaker.io/docs/components/filters/timestamprange/</guid>
+      <description>
+        
+        
+        
+
+&lt;div class=&#34;pageinfo pageinfo-primary&#34;&gt;
+&lt;p&gt;&lt;strong&gt;Read the &lt;a href=&#34;https://pkg.go.dev/github.com/AdRoll/baker/filter#TimestampRange&#34;&gt;API documentation »&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;filter-timestamprange&#34;&gt;Filter &lt;em&gt;TimestampRange&lt;/em&gt;&lt;/h2&gt;
+&lt;h3 id=&#34;overview&#34;&gt;Overview&lt;/h3&gt;
+&lt;p&gt;Discard records if the value of a field containing a timestamp is out of the given time range (i.e StartDateTime &amp;lt;= value &amp;lt; EndDateTime)&lt;/p&gt;
+&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;/h3&gt;
+&lt;p&gt;Keys available in the &lt;code&gt;[filter.config]&lt;/code&gt; section:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Default&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Required&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;StartDatetime&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ldquo;no bound&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Lower bound of the accepted time interval (inclusive, UTC) format:&amp;lsquo;2006-01-31 15:04:05&amp;rsquo;. Also accepts &amp;lsquo;now&amp;rsquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EndDatetime&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;ldquo;no bound&amp;rdquo;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Upper bound of the accepted time interval (exclusive, UTC) format:&amp;lsquo;2006-01-31 15:04:05&amp;rsquo;. Also accepts &amp;lsquo;now&amp;rsquo;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Field&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;string&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&amp;quot;&amp;quot;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;true&lt;/td&gt;
+&lt;td&gt;Name of the field containing the Unix EPOCH timestamp&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
