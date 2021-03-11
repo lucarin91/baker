@@ -30,10 +30,12 @@ jobs:
         cd utils/generate-components-pages/
         go get github.com/AdRoll/baker
         go run . ../../content/en/docs/Components/
+
     - name: Build
       run: |
         make setup
         make build
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
